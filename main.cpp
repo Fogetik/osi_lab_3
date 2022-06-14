@@ -40,39 +40,39 @@ void task_4();
 
 void dLatch(bool choice);
 
-void dLatch1(bool choice);
+void dLatch1();
 
 int main()
 {
 //    firstTask();
-//    string line1, line2;
-//    cout << "First expression: ";
-//    std::getline(cin, line1);
-//    std::transform(line1.begin(), line1.end(), line1.begin(), tolower);
-//    line1 = del_space(line1);
+    string line1, line2;
+    cout << "First expression: ";
+    std::getline(cin, line1);
+    std::transform(line1.begin(), line1.end(), line1.begin(), tolower);
+    line1 = del_space(line1);
 //
-//    vector<int> result_1 = tab_truth(line1);
-//    for (int d : result_1){
-//        cout << d << endl;
-//    }
-//
-//    cout << "Second expression: ";
-//    std::getline(cin, line2);
-//    std::transform(line2.begin(), line2.end(), line2.begin(), tolower);
-//
-//    line2 = del_space(line2);
-//
-//    vector<int> result_2 = tab_truth(line2);
-//    for (int d : result_2){
-//        cout << d << endl;
-//    }
-//
-//    if (result_1 == result_2)
-//        cout << "Equality" << endl;
-//    else
-//        cout << "Not equality" << endl;
+    vector<int> result_1 = tab_truth(line1);
+    for (int d : result_1){
+        cout << d << endl;
+    }
+
+    cout << "Second expression: ";
+    std::getline(cin, line2);
+    std::transform(line2.begin(), line2.end(), line2.begin(), tolower);
+
+    line2 = del_space(line2);
+
+    vector<int> result_2 = tab_truth(line2);
+    for (int d : result_2){
+        cout << d << endl;
+    }
+
+    if (result_1 == result_2)
+        cout << "Equality" << endl;
+    else
+        cout << "Not equality" << endl;
 //    (!(A+(B*C)+(A+C)))*(!B*!C*(A+!B))
-    task_4();
+//    task_4();
     return 0;
 }
 
@@ -205,11 +205,11 @@ string to_binary(int count, ull d_size)
     string res;
     while (count)
     {
-        res.insert(0, "0" + std::to_string(count % 2));
+        res.insert(0, (std::to_string(count % 2)));
         count /= 2;
     }
 
-    while (res.size() < d_size)
+    while (res.length() < d_size)
     {
         res.insert(0, "0");
     }
@@ -236,7 +236,6 @@ vector <int> tab_truth(string& line)
         p_var_1 = false; p_var_2 = false; p_var_3 = false; p_var_4 = false;
 
         bin = to_binary(i, dictionary.size());
-
         for (ull pos = 0; pos < dictionary.size(); pos++)
         {
             dic_v2[dictionary[pos]] = static_cast<bool>(bin[pos] - '0');
@@ -452,10 +451,7 @@ string alu8(int f0, int f1, string a, string b, int inC){
 int d_latch = 0;
 
 void task_4(){
-    std::thread tA(dLatch1, false);
-    std::thread tB(dLatch1, true);
-    tA.join();
-    tB.join();
+    dLatch1();
 }
 
 void dLatch(bool choice){
@@ -498,39 +494,29 @@ void dLatch(bool choice){
 }
 
 
-void dLatch1(bool choice){
-    if (choice) {
-        int d_latch1 = 0;
-        int q, no_q, p;
-        q = 1;
-        no_q = 0;
-        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-        std::chrono::duration<double, std::milli> fp_ms{};
-        std::chrono::steady_clock::time_point end;
-        point:
-        end = std::chrono::steady_clock::now();
-        fp_ms = end - begin;
-        if (fp_ms.count() >= 1000){
-            p = 1;
-            begin = end;
-
-        }
+void dLatch1(){
+    int d_latch1 = 1;
+    int q, no_q, p = 0;
+    q = 1;
+    no_q = 0;
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+    std::chrono::duration<double, std::milli> fp_ms{};
+    std::chrono::steady_clock::time_point end;
+    point:
+    end = std::chrono::steady_clock::now();
+    fp_ms = end - begin;
+    if (fp_ms.count() >= 1000){
+        p = 1;
+        begin = end;
         no_q = !((d_latch1 && p) || q);
         q = !((!d_latch1 && p) || no_q);
         no_q = !((d_latch1 && p) || q);
         cout << q << " : " << no_q << endl;
         p = 0;
-        usleep(250000);
-        goto point;
-
-
-
     }
-    else{
-        while (true){
-            cin >> d_latch;
-            if (d_latch == -1)
-                break;
-        }
-    }
+    no_q = !((d_latch1 && p) || q);
+    q = !((!d_latch1 && p) || no_q);
+    no_q = !((d_latch1 && p) || q);
+
+    goto point;
 }
